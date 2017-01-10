@@ -17,7 +17,7 @@ fi
 # Check response time
 RESPONSE_TIME=$(responseTime "$ATLASSIAN_URL")
 if [ $(echo "$RESPONSE_TIME > 0" | bc) -eq 1 ]; then
-  echo "Atlassian OK|${RESPONSE_TIME}s"
+  echo "Atlassian OK | response_time=${RESPONSE_TIME}s"
   if [ $(echo "$RESPONSE_TIME > 1" | bc) -eq 1 ]; then
     exit 1
   else
