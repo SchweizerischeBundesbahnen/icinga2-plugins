@@ -3,6 +3,8 @@
 import argparse, logging, nagiosplugin
 from boto.ec2 import cloudwatch
 from datetime import datetime, timedelta
+import pprint
+
 
 class CloudWatchBase(nagiosplugin.Resource):
 
@@ -98,13 +100,13 @@ class CloudWatchMetricSummary(nagiosplugin.Summary):
         self.metric = metric
         self.dimensions = dimensions
         self.statistic = statistic
-
+        
     def ok(self, results):
-        full_metric = '%s:%s' % (self.namespace, self.metric)
+        full_metric = '%s:%s = %s%s' % (self.namespace, self.metric, round(results['cloudwatchmetric'].metric.value, 2), results['cloudwatchmetric'].metric.uom)
         return 'CloudWatch Metric %s with dimensions %s' % (full_metric, self.dimensions)
 
     def problem(self, results):
-        full_metric = '%s:%s' % (self.namespace, self.metric)
+        full_metric = '%s:%s = %s%s' % (self.namespace, self.metric, round(results['cloudwatchmetric'].metric.value, 2), results['cloudwatchmetric'].metric.uom)
         return 'CloudWatch Metric %s with dimensions %s' % (full_metric, self.dimensions)
 
 class CloudWatchMetricRatioSummary(nagiosplugin.Summary):
